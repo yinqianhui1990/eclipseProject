@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yqh.test.UserMap">
+   
+	
+   <!--  <resultMap id="interests" type="com.yqh.test.Interest">
+        	<id property="seqId"/>
+		    <result property="userName" column="username" />
+		    <result property="interest" column="interest" />
+		    <result property="createTime" column="createtime" />
+    </resultMap>
+    
+    <resultMap id="habit" type="com.yqh.test.Habit">
+       <collection property="interests" resultMap="interests"  ofType="com.yqh.test.Interest">
+		  
+		</collection>
+    </resultMap>
+    
+     <resultMap type="com.yqh.test.User" id="userResult">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="email" column="email" />
+		<result property="nickname" column="nickname" />
+		<result property="tel" column="tel" />
+		<result property="birth" column="birth" />
+		<result property="address" column="address" />
+		<association property="habit" javaType="com.yqh.test.Habit" resultMap="habit">
+		</association>
+	</resultMap> -->
+	
+	 <resultMap type="com.yqh.test.User" id="userResult">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="email" column="email" />
+		<result property="nickname" column="nickname" />
+		<result property="tel" column="tel" />
+		<result property="birth" column="birth" />
+		<result property="address" column="address" />
+		<collection property="habit" ofType="com.yqh.test.Habit"  >
+		    <collection property="interests" ofType="com.yqh.test.Interest">
+		    <id property="seqId" column="seq_id"/>
+		    <result property="userName" column="username" />
+		    <result property="interest" column="interest" />
+		    <result property="createTime" column="createtime" />
+		    </collection>
+		</collection>
+		 <collection property="interests" ofType="com.yqh.test.Interest">
+		    <id property="seqId" column="seq_id"/>
+		    <result property="userName" column="username" />
+		    <result property="interest" column="interest" />
+		    <result property="createTime" column="createtime" />
+		    </collection>
+		</resultMap>
+  <select id="findUserById" parameterType="int" resultMap="userResult">
+		select id,a.username,`password`,seq_id,interest
+		from days_user a  left join interests b on a.username=b.username where id=#{id}
+ 	</select>
+</mapper>
